@@ -149,4 +149,4 @@ async def on_message(message):
 
 
 client.loop.create_task(update_stats())
-client.run(str(os.environ.get("NjA3ODUzNTk1NTA4ODY3MDcy.XUk53w.IRnXmc-pRAbyIjNxYIlOcvDuhBo")))
+client.run(str(os.environ.get("BOT_TOKEN")))
