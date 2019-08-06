@@ -1,0 +1,6 @@
+discord
+asyncio
+lichess.api
+Pymoe
+youtube_dl
+pip
