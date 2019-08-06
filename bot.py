@@ -149,4 +149,4 @@ async def on_message(message):
 
 
 client.loop.create_task(update_stats())
-client.run(procces.env.token)
+client.run(token)
