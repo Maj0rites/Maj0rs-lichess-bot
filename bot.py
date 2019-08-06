@@ -53,7 +53,6 @@ async def on_message(message):
         except:
             return await message.channel.send("user not found")
         await message.channel.send((user['perfs']['antichess']['rating']))
-        print(name)
     elif args[0] == '-atomic':
         name = ' '.join(args[1:])
         user = lichess.api.user(name)
@@ -146,7 +145,20 @@ async def on_message(message):
         await message.channel.send("https://lichess.org/tv/computer")
     elif message.content == ("-botTv"):
         await message.channel.send("https://lichess.org/tv/bot")
+    elif message.content == ("-online"):
+        users = list(lichess.api.users_status(['sanchezcordero', 'Ogul1', 'ONUR_KORKMAZ', 'AskMeWhoAmI', 'programFOX', 'ted', 'townes-paycheck']))
+        online = [u['id'] for u in users if u.get('online')]
+        online_count = len([u for u in users if u.get('online')])
+        await message.channel.send(online)
+        await message.channel.send(online_count)
+    elif message.content == ("-playing"):
+        oyuncular = list(lichess.api.users_status(['sanchezcordero', 'Ogul1', 'ONUR_KORKMAZ', 'AskMeWhoAmI', 'programFOX', 'ted', 'townes-paycheck']))
+        playing = [u['id'] for u in oyuncular if u.get('playing')]
+        await message.channel.send(playing)
+    elif message.content == ("-followers raven"):
+        await message.channel.send("```I can not count it it is too much \n 404 error```")
+
 
 
 client.loop.create_task(update_stats())
-client.run(str(os.environ.get("BOT_TOKEN")))
+client.run(token)
