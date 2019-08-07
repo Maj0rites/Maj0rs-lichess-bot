@@ -13,15 +13,6 @@ bot = commands.Bot(command_prefix="-")
 client = discord.Client()
 
 
-def read_token():
-    with open("token.txt", "r") as f:
-        lines = f.readlines()
-        return lines[0].strip()
-
-
-token = read_token()
-
-
 async def update_stats():
     await client.wait_until_ready()
     global messages, joined
