@@ -155,8 +155,6 @@ async def on_message(message):
         oyuncular = list(lichess.api.users_status(['sanchezcordero', 'Ogul1', 'ONUR_KORKMAZ', 'AskMeWhoAmI', 'programFOX', 'ted', 'townes-paycheck', 'Fins-Love', 'Testacc233', 'PepsiNGaming', 'v24combo', 'finlip']))
         playing = [u['id'] for u in oyuncular if u.get('playing')]
         await message.channel.send(playing)
-    elif message.content == ("-followers raven"):
-        await message.channel.send("```I can not count it it is too much \n 404 error```")
 
 
 
