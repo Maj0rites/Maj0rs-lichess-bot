@@ -13,6 +13,15 @@ bot = commands.Bot(command_prefix="-")
 client = discord.Client()
 
 
+def read_token():
+    with open("token.txt", "r") as f:
+        lines = f.readlines()
+        return lines[0].strip()
+
+
+token = read_token()
+
+
 async def update_stats():
     await client.wait_until_ready()
     global messages, joined
@@ -93,7 +102,7 @@ async def on_message(message):
         user = lichess.api.user(name)
         await message.channel.send((user['perfs']['ultrabullet']['rating']))
     if message.content == "-github":
-        await message.channel.send("github link")
+        await message.channel.send("https://github.com/Maj0rites/Maj0rs-lichess-bot")
     elif message.content == "-help":
         await message.channel.send("My prefix is - for more info type -info")
     elif message.content == "-info":
@@ -137,13 +146,13 @@ async def on_message(message):
     elif message.content == ("-botTv"):
         await message.channel.send("https://lichess.org/tv/bot")
     elif message.content == ("-online"):
-        users = list(lichess.api.users_status(['sanchezcordero', 'Ogul1', 'ONUR_KORKMAZ', 'AskMeWhoAmI', 'programFOX', 'ted', 'townes-paycheck']))
+        users = list(lichess.api.users_status(['sanchezcordero', 'Ogul1', 'ONUR_KORKMAZ', 'AskMeWhoAmI', 'programFOX', 'ted', 'townes-paycheck', 'Fins-Love', 'Testacc233', 'PepsiNGaming', 'v24combo', 'finlip']))
         online = [u['id'] for u in users if u.get('online')]
         online_count = len([u for u in users if u.get('online')])
         await message.channel.send(online)
         await message.channel.send(online_count)
     elif message.content == ("-playing"):
-        oyuncular = list(lichess.api.users_status(['sanchezcordero', 'Ogul1', 'ONUR_KORKMAZ', 'AskMeWhoAmI', 'programFOX', 'ted', 'townes-paycheck']))
+        oyuncular = list(lichess.api.users_status(['sanchezcordero', 'Ogul1', 'ONUR_KORKMAZ', 'AskMeWhoAmI', 'programFOX', 'ted', 'townes-paycheck', 'Fins-Love', 'Testacc233', 'PepsiNGaming', 'v24combo', 'finlip']))
         playing = [u['id'] for u in oyuncular if u.get('playing')]
         await message.channel.send(playing)
     elif message.content == ("-followers raven"):
