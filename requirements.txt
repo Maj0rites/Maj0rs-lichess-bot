@@ -1,2 +1,2 @@
-lichess
+lichess.api
 discord
