@@ -1,2 +1,2 @@
-https://github.com/cyanfish/python-lichess
+lichess
 discord
