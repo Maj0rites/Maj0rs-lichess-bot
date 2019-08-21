@@ -4,23 +4,17 @@ import discord
 from discord.ext import commands
 import time
 import asyncio
+import os
 
 # id = 559392094351917076
 messages = 0
 joined = 0
 bot = commands.Bot(command_prefix="-")
+murdered = {}
 
 client = discord.Client()
 
-
-def read_token():
-    with open("token.txt", "r") as f:
-        lines = f.readlines()
-        return lines[0].strip()
-
-
-token = read_token()
-
+token = os.environ.get('token')
 
 async def update_stats():
     await client.wait_until_ready()
@@ -34,14 +28,19 @@ async def update_stats():
                 messages = 0
                 joined = 0
 
-                await asyncio.sleep(5)
+                await asyncio.sleep(300)
         except Exception as e:
             print(e)
-            await asyncio.sleep(5)
+            await asyncio.sleep(300)
 
 
 channel_id = 0
 
+@client.event
+async def on_ready():
+    print('Logged in...')
+    print('Username: ' + str(client.user.name))
+    print('Client ID: ' + str(client.user.id))
 
 @client.event
 async def on_message(message):
@@ -155,8 +154,28 @@ async def on_message(message):
         oyuncular = list(lichess.api.users_status(['sanchezcordero', 'Ogul1', 'ONUR_KORKMAZ', 'AskMeWhoAmI', 'programFOX', 'ted', 'townes-paycheck', 'Fins-Love', 'Testacc233', 'PepsiNGaming', 'v24combo', 'finlip']))
         playing = [u['id'] for u in oyuncular if u.get('playing')]
         await message.channel.send(playing)
-
-
+    elif message.content == ("-followers raven"):
+        await message.channel.send("```I can not count it it is too much \n 404 error```")
+    elif message.content == ("-top1"):
+        await message.channel.send("onur")
+    elif message.content.startswith("-answer "):
+        reply = random.choice(
+            ["AskMeWhoAmI is", "This is out of your business", "Of course no!!", "I don't understand ask it again", "I am too lazy to answer it",
+             "metin?", "NO.", "YES", "I FELT IN LOVE",
+             "DUDE DON'T WAIT FOR ANSWER THIS QUESTION"])
+        await message.channel.send(f"{message.author.mention} {reply}")
+    elif message.content == ("noobest"):
+        await message.channel.send("NGB nevergonnaberserk :cmonBruh:  ")
+    elif message.content.startswith("-murder"):
+        global murdered
+        if message.mentions[0].id in murdered:
+            if murdered[message.mentions[0].id]['time'] + 90 > time.time():
+                return await message.channel.send("```You have already murdered him wait for 90 seconds```")
+        murdered[message.mentions[0].id] = {}
+        murdered[message.mentions[0].id]['time'] = time.time()
+        embed = discord.Embed()
+        embed.add_field(name="I will murder you!", value="Job done!", inline=False)
+        await message.channel.send(embed=embed)
 
 client.loop.create_task(update_stats())
 client.run(token)
