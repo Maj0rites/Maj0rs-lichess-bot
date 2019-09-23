@@ -176,6 +176,8 @@ async def on_message(message):
         embed = discord.Embed()
         embed.add_field(name="I will murder you!", value="Job done!", inline=False)
         await message.channel.send(embed=embed)
+    elif message.content == ("-howtogetgood"):
+        await message.channel.send("```Analyze your games bro```")
 
 client.loop.create_task(update_stats())
 client.run(token)
