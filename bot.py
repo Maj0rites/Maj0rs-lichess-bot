@@ -4,7 +4,6 @@ import discord
 from discord.ext import commands
 import time
 import asyncio
-import os
 
 # id = 559392094351917076
 messages = 0
@@ -14,7 +13,15 @@ murdered = {}
 
 client = discord.Client()
 
-token = os.environ.get('token')
+
+def read_token():
+    with open("token.txt", "r") as f:
+        lines = f.readlines()
+        return lines[0].strip()
+
+
+token = read_token()
+
 
 async def update_stats():
     await client.wait_until_ready()
@@ -35,6 +42,7 @@ async def update_stats():
 
 
 channel_id = 0
+print(repr(token))
 
 @client.event
 async def on_ready():
@@ -176,8 +184,6 @@ async def on_message(message):
         embed = discord.Embed()
         embed.add_field(name="I will murder you!", value="Job done!", inline=False)
         await message.channel.send(embed=embed)
-    elif message.content == ("-howtogetgood"):
-        await message.channel.send("```Analyze your games bro```")
 
 client.loop.create_task(update_stats())
 client.run(token)
