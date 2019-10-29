@@ -180,7 +180,7 @@ async def on_message(message):
         await message.channel.send("```Analyze your games bro```")
     elif message.content == ("-blobby-players"):
         users = lichess.api.users_by_team('blobby-players')
-        ratings = [u.get('perfs', {}).get('blitz', {}).get('rating') for u in users]
+        ratings = [u.get('perfs', {}).get('antichess', {}).get('rating') for u in users]
         await message.channel.send(ratings)
 
 client.loop.create_task(update_stats())
