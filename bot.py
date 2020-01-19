@@ -168,9 +168,9 @@ async def on_message(message):
         await message.channel.send("onur")
     elif message.content.startswith("-answer "):
         reply = random.choice(
-            ["AskMeWhoAmI is", "This is out of your business", "Of course no!!", "I don't understand ask it again", "I am too lazy to answer it",
-             "metin?", "NO.", "YES", "I FELT IN LOVE",
-             "DUDE DON'T WAIT FOR ANSWER THIS QUESTION"])
+            ["evet", "Sanane", "Tabii ki hayır!!", "Anlamadım", "üşeniyorum",
+             "gerçekten mi?", "hayır.", "haklısın", "Sanırım ben aşık oldum",
+             "bu soruya cevap vermemi bekleme"])
         await message.channel.send(f"{message.author.mention} {reply}")
     elif message.content == ("noobest"):
         await message.channel.send("NGB nevergonnaberserk :cmonBruh:  ")
@@ -184,6 +184,10 @@ async def on_message(message):
         embed = discord.Embed()
         embed.add_field(name="I will murder you!", value="Job done!", inline=False)
         await message.channel.send(embed=embed)
+    elif message.content ==("sa"):
+        await message.channel.send("As")
+    elif message.content ==("Sa"):
+        await message.channel.send("As")
 
 client.loop.create_task(update_stats())
 client.run(token)
