@@ -1,129 +1,55 @@
-#!/usr/bin/python3.7
-# -*- coding: utf-8 -*-
-#
-
-
 import lichess.api
 import random
 import discord
 from discord.ext import commands
 import time
 import asyncio
-import ssl
-import aiohttp
-from collections import Counter
-
+ 
 # id = 559392094351917076
 messages = 0
 joined = 0
 bot = commands.Bot(command_prefix="-")
 murdered = {}
-
+ 
 client = discord.Client()
-
-
+ 
+ 
 def read_token():
     with open("token.txt", "r") as f:
         lines = f.readlines()
         return lines[0].strip()
-
-
+ 
+ 
 token = read_token()
-
-
+ 
+ 
 async def update_stats():
     await client.wait_until_ready()
     global messages, joined
-
+ 
     while not client.is_closed():
         try:
             with open("statts.txt", "a") as f:
                 f.write(f"Time: {int(time.time())}, Messages: {messages}, Members Joined: {joined}\n")
-
+ 
                 messages = 0
                 joined = 0
-
+ 
                 await asyncio.sleep(300)
         except Exception as e:
             print(e)
             await asyncio.sleep(300)
-
-
+ 
+ 
 channel_id = 0
 print(repr(token))
-
-extensions = [
-    "cogs.events",
-    "cogs.admin",
-    "cogs.mod",
-    "cogs.info",
-    "cogs.fun",
-    "cogs.misc",
-    "cogs.help",
-]
-
-def get_prefix(bot, msg):
-    user_id = bot.user.id
-    return [f"<@!{user_id}> ", f"<@{user_id}> "] + config.prefix
-
-
-custom_context = ssl.create_default_context()
-conn = aiohttp.TCPConnector(ssl=custom_context)
-
-
-class YMYBot(commands.Bot):
-    def __init__(self):
-        super().__init__(
-            command_prefix=get_prefix, description=description, case_insensitive=True,
-        )
-
-        self.uptime = ""
-        self.embed_color = 0x36393F
-        self.owner_ids = set(config.owner_ids)
-        self.session = aiohttp.ClientSession(loop=self.loop, connector=conn)
-
-        self._auto_spam_count = Counter()
-        self.spam_control = commands.CooldownMapping.from_cooldown(
-            10, 12.0, commands.BucketType.user
-        )
-
-        for cog in extensions:
-            try:
-                self.load_extension(cog)
-            except Exception as exc:
-                print(f"{cog} {exc.__class__.__name__}: {exc}")
-
-        #
-        # jishaku: A debugging and testing cog for discord.py rewrite bots.
-        # Source code: https://github.com/Gorialis/jishaku
-        #
-
-        self.load_extension("jishaku")
-
-    @property
-    def owners(self):
-        return [self.get_user(i) for i in self.owner_ids]
-
-    @property
-    def config(self):
-        return __import__("config")
-
-    async def on_resumed(self):
-        print("Resumed...")
-
-    async def close(self):
-        await super().close()
-        await self.session.close()
-
-    def run(self):
-        super().run(config.token, reconnect=True)
-
+ 
 @client.event
 async def on_ready():
     print('Logged in...')
     print('Username: ' + str(client.user.name))
     print('Client ID: ' + str(client.user.id))
-
+ 
 @client.event
 async def on_message(message):
     args = message.content.split(' ')
@@ -236,10 +162,6 @@ async def on_message(message):
         oyuncular = list(lichess.api.users_status(['sanchezcordero', 'Ogul1', 'ONUR_KORKMAZ', 'AskMeWhoAmI', 'programFOX', 'ted', 'townes-paycheck', 'Fins-Love', 'Testacc233', 'PepsiNGaming', 'v24combo', 'finlip']))
         playing = [u['id'] for u in oyuncular if u.get('playing')]
         await message.channel.send(playing)
-    elif message.content == ("-followers raven"):
-        await message.channel.send("```I can not count it it is too much \n 404 error```")
-    elif message.content == ("-top1"):
-        await message.channel.send("onur")
     elif message.content.startswith("-answer "):
         reply = random.choice(
             ["evet", "Sanane", "Tabii ki hayır!!", "Anlamadım", "üşeniyorum",
@@ -262,6 +184,6 @@ async def on_message(message):
         await message.channel.send("As")
     elif message.content ==("Sa"):
         await message.channel.send("As")
-
+ 
 client.loop.create_task(update_stats())
 client.run(token)
