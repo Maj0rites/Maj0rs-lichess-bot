@@ -4,52 +4,51 @@ import discord
 from discord.ext import commands
 import time
 import asyncio
- 
+
 # id = 559392094351917076
 messages = 0
 joined = 0
 bot = commands.Bot(command_prefix="-")
 murdered = {}
- 
+
 client = discord.Client()
- 
- 
+
+
 def read_token():
     with open("token.txt", "r") as f:
         lines = f.readlines()
         return lines[0].strip()
- 
- 
+
+
 token = read_token()
- 
- 
+
 async def update_stats():
     await client.wait_until_ready()
     global messages, joined
- 
+
     while not client.is_closed():
         try:
             with open("statts.txt", "a") as f:
                 f.write(f"Time: {int(time.time())}, Messages: {messages}, Members Joined: {joined}\n")
- 
+
                 messages = 0
                 joined = 0
- 
+
                 await asyncio.sleep(300)
         except Exception as e:
             print(e)
             await asyncio.sleep(300)
- 
- 
+
+
 channel_id = 0
 print(repr(token))
- 
+
 @client.event
 async def on_ready():
     print('Logged in...')
     print('Username: ' + str(client.user.name))
     print('Client ID: ' + str(client.user.id))
- 
+
 @client.event
 async def on_message(message):
     args = message.content.split(' ')
@@ -116,7 +115,7 @@ async def on_message(message):
         await message.channel.send(
             "```-github ~ Shows the github link of bot \n -author ~ shows who made that bot \n -bullet [nickname] ~ Shows the [nickname]'s bullet rating \n -blitz [nickname] ~ Shows the [nickname]'s blitz rating \n -rapid [nickname] ~ Shows the [nickname]'s rapid rating \n -classical [nickname] ~ Shows the [nickname]'s classical rating \n -crazyhouse [nickname] ~ Shows the [nickname]'s crazyhouse rating \n  -chess960 [nickname] ~ Shows the [nickname]'s chess960 rating \n -kingOfTheHill [nickname] ~ Shows the [nickname]'s king of the hill rating \n -threeCheck [nickname] ~ Shows the [nickname]'s threeCheck rating \n -antichess [nickname] ~ Shows the [nickname]'s antichess rating \n -atomic [nickname] ~ Shows the [nickname]'s atomic rating \n -horde [nickname] ~ Shows the [nickname]'s horde rating \n -racingKings [nickname] ~ Shows the [nickname]'s racingKings rating \n -ultrabullet [nickname] ~ Shows the [nickname]'s ultrabullet rating \n Usage : -antichess AskMeWhoAmI \n -[variant]Tv sends [variant's] lichess Tv link!```")
     elif message.content == "-author":
-        await message.channel.send(f"""Maj0r#3173""")
+        await message.channel.send(f"""Major#3173""")
     elif message.content.startswith("-random "):
         args = message.content.split(" ")[1:]
         await message.channel.send(random.choice(args))
@@ -159,7 +158,7 @@ async def on_message(message):
         await message.channel.send(online)
         await message.channel.send(online_count)
     elif message.content == ("-playing"):
-        oyuncular = list(lichess.api.users_status(['sanchezcordero', 'Ogul1', 'ONUR_KORKMAZ', 'AskMeWhoAmI', 'programFOX', 'ted', 'townes-paycheck', 'Fins-Love', 'Testacc233', 'PepsiNGaming', 'v24combo', 'finlip']))
+        oyuncular = list(lichess.api.users_status(['patmat26']))
         playing = [u['id'] for u in oyuncular if u.get('playing')]
         await message.channel.send(playing)
     elif message.content.startswith("-answer "):
@@ -168,8 +167,6 @@ async def on_message(message):
              "gerçekten mi?", "hayır.", "haklısın", "Sanırım ben aşık oldum",
              "bu soruya cevap vermemi bekleme"])
         await message.channel.send(f"{message.author.mention} {reply}")
-    elif message.content == ("noobest"):
-        await message.channel.send("NGB nevergonnaberserk :cmonBruh:  ")
     elif message.content.startswith("-murder"):
         global murdered
         if message.mentions[0].id in murdered:
@@ -180,10 +177,6 @@ async def on_message(message):
         embed = discord.Embed()
         embed.add_field(name="I will murder you!", value="Job done!", inline=False)
         await message.channel.send(embed=embed)
-    elif message.content ==("sa"):
-        await message.channel.send("As")
-    elif message.content ==("Sa"):
-        await message.channel.send("As")
- 
+
 client.loop.create_task(update_stats())
 client.run(token)
