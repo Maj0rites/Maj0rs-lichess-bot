@@ -1,4 +1,3 @@
 python-lichess
 discord
-lichess.api
 commands
