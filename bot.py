@@ -29,6 +29,7 @@ class CovidData:
             self.covid_update_time = time.time()
         self.country_list = [el["name"] for el in self.covid.list_countries()]
 
+    @property
     def country_name(self):
         self.update_covid_data()
         return self.country_list
@@ -41,7 +42,7 @@ class CovidData:
         return fn
 
 
-covid = CovidData()
+covid = Covid(source="worldometers")
 
 
 client = discord.Client()
@@ -51,9 +52,6 @@ def read_token():
     with open("token.txt", "r") as f:
         lines = f.readlines()
         return lines[0].strip()
-
-
-token = read_token()
 
 
 async def update_stats():
@@ -74,10 +72,6 @@ async def update_stats():
         except Exception as e:
             print(e)
             await asyncio.sleep(300)
-
-
-channel_id = 0
-print(repr(token))
 
 
 @client.event
@@ -156,7 +150,7 @@ async def on_message(message):
             "```-github ~ Shows the github link of bot \n -author ~ shows who made that bot \n -bullet [nickname] ~ Shows the [nickname]'s bullet rating \n -blitz [nickname] ~ Shows the [nickname]'s blitz rating \n -rapid [nickname] ~ Shows the [nickname]'s rapid rating \n -classical [nickname] ~ Shows the [nickname]'s classical rating \n -crazyhouse [nickname] ~ Shows the [nickname]'s crazyhouse rating \n  -chess960 [nickname] ~ Shows the [nickname]'s chess960 rating \n -kingOfTheHill [nickname] ~ Shows the [nickname]'s king of the hill rating \n -threeCheck [nickname] ~ Shows the [nickname]'s threeCheck rating \n -antichess [nickname] ~ Shows the [nickname]'s antichess rating \n -atomic [nickname] ~ Shows the [nickname]'s atomic rating \n -horde [nickname] ~ Shows the [nickname]'s horde rating \n -racingKings [nickname] ~ Shows the [nickname]'s racingKings rating \n -ultrabullet [nickname] ~ Shows the [nickname]'s ultrabullet rating \n Usage : -antichess AskMeWhoAmI \n -[variant]Tv sends [variant's] lichess Tv link!```"
         )
     elif message.content == "-author":
-        await message.channel.send(f"""Major#3173""")
+        await message.channel.send(f"""hit 'em up#0011""")
     elif message.content.startswith("-random "):
         args = message.content.split(" ")[1:]
         await message.channel.send(random.choice(args))
@@ -212,7 +206,7 @@ async def on_message(message):
         await message.channel.send(covid.get_total_confirmed_cases())
     elif message.content.startswith("-covid"):
         try:
-            country_name = " ".join(message.content.split()[1:])
+            country_name = message.content.split()[1]
         except IndexError:
             await message.channel.send(
                 "Usage: -covid [deaths | confirmed | <country>]"
@@ -229,5 +223,6 @@ async def on_message(message):
             )
             await message.channel.send(msg)
 
+
 client.loop.create_task(update_stats())
-client.run(token)
+client.run("NjA3ODUzNTk1NTA4ODY3MDcy.XiSK4A.xBKek8d_dH9PJvj48osP0yVJBG0")
