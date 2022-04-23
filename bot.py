@@ -225,4 +225,4 @@ async def on_message(message):
 
 
 client.loop.create_task(update_stats())
-client.run("Ur token")
+client.run(token)
